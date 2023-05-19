@@ -1,0 +1,159 @@
+#!/bin/bash
+#################################################################################################################
+# Auswertungsscript der verschiedenen Hotline-Gruppen. Ausgewertet werden Status / Anzahl der eingeloggten MA's #
+# und Anrufaufkommen (Gruppe frei oder busy). Skript @ TKA                                                      #
+#                                                                                                               #
+# autor: DS13 / EG6                                                                                             #
+# date: 2023-05-19                                                                                              #
+#################################################################################################################
+while true
+do
+
+datum=$(date +%Y-%m-%d)
+
+file1=/tmp/${datum}_G11511_stat.csv
+#file2=/tmp/${datum}_G12121_stat.csv
+file3=/tmp/${datum}_G55555_stat.csv
+file4=/tmp/${datum}_G36363_stat.csv
+file5=/tmp/${datum}_G70299_stat.csv
+file6=/tmp/${datum}_G36290_stat.csv
+file7=/tmp/${datum}_G50275_stat.csv
+file8=/tmp/${datum}_G50280_stat.csv
+file9=/tmp/${datum}_G50290_stat.csv
+file10=/tmp/${datum}_G53952_stat.csv
+file11=/tmp/${datum}_G53106_stat.csv
+
+if [ ! -f "$file1" ]
+then
+touch /tmp/${datum}_G11511_stat.csv
+#echo "Datei erzeugt KM"
+fi
+#if [ ! -f "$file2" ]
+#then
+#touch /tmp/${datum}_G12121_stat.csv
+#echo "Datei erzeugt Corona"
+#fi
+if [ ! -f "$file3" ]
+then
+touch /tmp/${datum}_G55555_stat.csv
+#echo "Datei erzeugt Hotline"
+fi
+if [ ! -f "$file4" ]
+then
+touch /tmp/${datum}_G36363_stat.csv
+#echo "Datei erzeugt FSW"
+fi
+if [ ! -f "$file5" ]
+then
+touch /tmp/${datum}_G70299_stat.csv
+#echo "Datei erzeugt Abfall"
+fi
+if [ ! -f "$file6" ]
+then
+touch /tmp/${datum}_G36290_stat.csv
+#echo "Datei erzeugt KFZ-Zulass"
+fi
+if [ ! -f "$file7" ]
+then
+touch /tmp/${datum}_G50275_stat.csv
+fi
+if [ ! -f "$file8" ]
+then
+touch /tmp/${datum}_G50280_stat.csv
+fi
+if [ ! -f "$file9" ]
+then
+touch /tmp/${datum}_G50290_stat.csv
+fi
+if [ ! -f "$file10" ]
+then
+touch /tmp/${datum}_G53952_stat.csv
+fi
+if [ ! -f "$file11" ]
+then
+touch /tmp/${datum}_G53106_stat.csv
+fi
+
+# Hotline Buergeramt
+in11511=$(tool pbxstat d 11511 | grep -w in | wc -l)
+busy11511=$(tool pbxstat d 11511 | grep -w in | grep BUSY | wc -l)
+stat11511=$(tool pbxstat d 11511 | grep -w etat_groupe | cut -f3,4,5 -d"_")
+dat11511=$(date +%d.%m.%Y","%T)
+
+# Hotline Corona
+#busybz=$(tool trkstat 20 |grep -w 'State' |sed 's/State//g' |sed 's/://g' |sed 's/|//g' |sed 's/F//g' |sed ':a;N;$!ba;s/\n/ /g' |wc -w)
+#in12121=$(tool pbxstat d 12121 | grep -w in | wc -l)
+#busy12121=$(tool pbxstat d 12121 | grep -w in | grep BUSY | wc -l)
+#stat12121=$(tool pbxstat d 12121 | grep -w etat_groupe | cut -f3,4,5 -d"_")
+#dat12121=$(date +%d.%m.%Y","%T)
+
+# Hotline Hotline EDV
+in55555=$(tool pbxstat d 55555 | grep -w in | wc -l)
+busy55555=$(tool pbxstat d 55555 | grep -w in | grep BUSY | wc -l)
+stat55555=$(tool pbxstat d 55555 | grep -w etat_groupe | cut -f3,4,5 -d"_")
+dat55555=$(date +%d.%m.%Y","%T)
+
+# Hotline FSW 36363
+in36363=$(tool pbxstat d 36363 | grep -w in | wc -l)
+busy36363=$(tool pbxstat d 36363 | grep -w in | grep BUSY | wc -l)
+stat36363=$(tool pbxstat d 36363 | grep -w etat_groupe | cut -f3,4,5 -d"_")
+dat36363=$(date +%d.%m.%Y","%T)
+
+# Hotline Abfall 70299
+in70299=$(tool pbxstat d 70299 | grep -w in | wc -l)
+busy70299=$(tool pbxstat d 70299 | grep -w in | grep BUSY | wc -l)
+stat70299=$(tool pbxstat d 70299 | grep -w etat_groupe | cut -f3,4,5 -d"_")
+dat70299=$(date +%d.%m.%Y","%T)
+
+# Hotline KFZ-Zulass 39290
+in36290=$(tool pbxstat d 36290 | grep -w in | wc -l)
+busy36290=$(tool pbxstat d 36290 | grep -w in | grep BUSY | wc -l)
+stat36290=$(tool pbxstat d 36290 | grep -w etat_groupe | cut -f3,4,5 -d"_")
+dat36290=$(date +%d.%m.%Y","%T)
+
+# Hotline Service Bafög 50275
+in50275=$(tool pbxstat d 50275 | grep -w in | wc -l)
+busy50275=$(tool pbxstat d 50275 | grep -w in | grep BUSY | wc -l)
+stat50275=$(tool pbxstat d 50275 | grep -w etat_groupe | cut -f3,4,5 -d"_")
+dat50275=$(date +%d.%m.%Y","%T)
+
+# Hotline Service Wohngeld 50280
+in50280=$(tool pbxstat d 50280 | grep -w in | wc -l)
+busy50280=$(tool pbxstat d 50280 | grep -w in | grep BUSY | wc -l)
+stat50280=$(tool pbxstat d 50280 | grep -w etat_groupe | cut -f3,4,5 -d"_")
+dat50280=$(date +%d.%m.%Y","%T)
+
+# Hotline Service Elterngeld 50290
+in50290=$(tool pbxstat d 50290 | grep -w in | wc -l)
+busy50290=$(tool pbxstat d 50290 | grep -w in | grep BUSY | wc -l)
+stat50290=$(tool pbxstat d 50290 | grep -w etat_groupe | cut -f3,4,5 -d"_")
+dat50290=$(date +%d.%m.%Y","%T)
+
+# Hotline 53952 20A
+in53952=$(tool pbxstat d 53952 | grep -w in | wc -l)
+busy53952=$(tool pbxstat d 53952 | grep -w in | grep BUSY | wc -l)
+stat53952=$(tool pbxstat d 53952 | grep -w etat_groupe | cut -f3,4,5 -d"_")
+dat53952=$(date +%d.%m.%Y","%T)
+
+# Hotline 53106 Impfstelle
+in53106=$(tool pbxstat d 53106 | grep -w in | wc -l)
+busy53106=$(tool pbxstat d 53106 | grep -w in | grep BUSY | wc -l)
+stat53106=$(tool pbxstat d 53106 | grep -w etat_groupe | cut -f3,4,5 -d"_")
+dat53106=$(date +%d.%m.%Y","%T)
+
+# Ausgabe im Terminal zum Testen
+echo $dat11511,$in11511,$busy11511,$stat11511 >> $file1
+#echo $dat12121,$in12121,$busy12121,$stat12121 >> $file2
+echo $dat55555,$in55555,$busy55555,$stat55555 >> $file3
+echo $dat36363,$in36363,$busy36363,$stat36363 >> $file4
+echo $dat70299,$in70299,$busy70299,$stat70299 >> $file5
+echo $dat36290,$in36290,$busy36290,$stat36290 >> $file6
+echo $dat50275,$in50275,$busy50275,$stat50275 >> $file7
+echo $dat50280,$in50280,$busy50280,$stat50280 >> $file8
+echo $dat50290,$in50290,$busy50290,$stat50290 >> $file9
+echo $dat53952,$in53952,$busy53952,$stat53952 >> $file10
+echo $dat53106,$in53106,$busy53106,$stat53106 >> $file11
+
+#echo "Schleifenende"
+sleep 10
+done
